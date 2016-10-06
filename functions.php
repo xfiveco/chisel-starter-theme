@@ -15,7 +15,7 @@ include get_template_directory() . '/features/ChiselPost.php';
 Timber::$dirname = array( 'templates' );
 
 class StarterSite extends TimberSite {
-    const DIST_PATH = 'dist/';
+	const DIST_PATH = 'dist/';
 
 	private $manifestPath = 'dist/rev-manifest.json';
 	private $manifest = array();
@@ -36,12 +36,12 @@ class StarterSite extends TimberSite {
 				true );
 		}
 
-		add_filter('Timber\PostClassMap', array($this, 'override_timber_post_class'));
+		add_filter( 'Timber\PostClassMap', array( $this, 'override_timber_post_class' ) );
 
 		parent::__construct();
 	}
 
-	public function override_timber_post_class($post_class) {
+	public function override_timber_post_class( $post_class ) {
 		return 'ChiselPost';
 	}
 
@@ -62,15 +62,19 @@ class StarterSite extends TimberSite {
 
 	public function add_to_twig( $twig ) {
 		/* this is where you can add your own fuctions to twig */
-		$assetPathFunction = new Twig_SimpleFunction( 'assetPath', array( $this, 'twigAssetPath' ) );
+		$assetPathFunction = new Twig_SimpleFunction( 'assetPath', array(
+			$this,
+			'twigAssetPath'
+		) );
 		$twig->addFunction( $assetPathFunction );
 
 		return $twig;
 	}
 
 	/**
-	 * Returns the real path of the asset. When WP_ENV_DEV is not defined in the current environment then it returns
-	 * path based on the manifest file content.
+	 * Returns the real path of the asset.
+	 * When WP_ENV_DEV is not defined in the current environment then it returns
+	 *  path based on the manifest file content.
 	 *
 	 * @param $asset
 	 *

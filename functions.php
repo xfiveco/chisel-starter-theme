@@ -36,7 +36,13 @@ class StarterSite extends TimberSite {
 				true );
 		}
 
+		add_filter('Timber\PostClassMap', array($this, 'override_timber_post_class'));
+
 		parent::__construct();
+	}
+
+	public function override_timber_post_class($post_class) {
+		return 'ChiselPost';
 	}
 
 	public function register_post_types() {

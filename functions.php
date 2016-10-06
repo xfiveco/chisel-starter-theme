@@ -9,6 +9,8 @@ if ( ! class_exists( 'Timber' ) ) {
 	return;
 }
 
+include get_template_directory() . '/features/ChiselPost.php';
+
 // set default twig templates directory
 Timber::$dirname = array( 'templates' );
 
@@ -47,6 +49,7 @@ class StarterSite extends TimberSite {
 
 	public function add_to_context( $context ) {
 		$context['menu'] = new TimberMenu();
+		$context['post'] = new ChiselPost();
 
 		return $context;
 	}

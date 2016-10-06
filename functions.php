@@ -13,6 +13,7 @@ if ( ! class_exists( 'Timber' ) ) {
 Timber::$dirname = array( 'templates' );
 
 class StarterSite extends TimberSite {
+    const DIST_PATH = 'dist/';
 
 	private $manifestPath = 'dist/rev-manifest.json';
 	private $manifest = array();

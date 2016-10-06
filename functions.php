@@ -41,6 +41,14 @@ class StarterSite extends TimberSite {
 		parent::__construct();
 	}
 
+	/**
+	 * Returns Post class name. You can also return an array('post_type' => 'post_type_class_name')
+	 *  to use different classes for individual post types.
+	 *
+	 * @param $post_class
+	 *
+	 * @return string|array
+	 */
 	public function override_timber_post_class( $post_class ) {
 		return 'ChiselPost';
 	}
@@ -53,6 +61,13 @@ class StarterSite extends TimberSite {
 		//this is where you can register custom taxonomies
 	}
 
+	/**
+	 * You can add custom global data to twig context
+	 *
+	 * @param $context
+	 *
+	 * @return mixed
+	 */
 	public function add_to_context( $context ) {
 		$context['menu'] = new TimberMenu();
 		$context['post'] = new ChiselPost();
@@ -60,11 +75,18 @@ class StarterSite extends TimberSite {
 		return $context;
 	}
 
+	/**
+	 * You can add you own functions to twig here
+	 *
+	 * @param $twig
+	 *
+	 * @return mixed
+	 */
 	public function add_to_twig( $twig ) {
-		/* this is where you can add your own fuctions to twig */
+		// Adds assetPath function to twig
 		$assetPathFunction = new Twig_SimpleFunction( 'assetPath', array(
 			$this,
-			'twigAssetPath'
+			'twig_asset_path'
 		) );
 		$twig->addFunction( $assetPathFunction );
 
@@ -80,7 +102,7 @@ class StarterSite extends TimberSite {
 	 *
 	 * @return string
 	 */
-	public function twigAssetPath( $asset ) {
+	public function twig_asset_path( $asset ) {
 		$pathinfo = pathinfo( $asset );
 
 		if ( ! isset( $_SERVER['WP_ENV_DEV'] ) && array_key_exists( $pathinfo['basename'], $this->manifest ) ) {

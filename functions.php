@@ -11,6 +11,10 @@ if ( ! class_exists( 'Timber' ) ) {
 
 include get_template_directory() . '/features/ChiselPost.php';
 
+if ( isset( $_SERVER['HTTP_X_CHISEL_PROXY'] ) ) {
+	define( 'CHISEL_DEV_ENV', true );
+}
+
 // set default twig templates directory
 Timber::$dirname = array( 'templates' );
 
@@ -31,7 +35,7 @@ class StarterSite extends TimberSite {
 
 		// load filenames from manifest file
 		// used to determinate asset real path
-		if ( ! isset( $_SERVER['WP_ENV_DEV'] ) && file_exists( get_template_directory() . '/' . $this->manifestPath ) ) {
+		if ( ! defined( 'CHISEL_DEV_ENV' ) && file_exists( get_template_directory() . '/' . $this->manifestPath ) ) {
 			$this->manifest = json_decode( file_get_contents( get_template_directory() . '/' . $this->manifestPath ),
 				true );
 		}
@@ -105,7 +109,7 @@ class StarterSite extends TimberSite {
 	public function twig_asset_path( $asset ) {
 		$pathinfo = pathinfo( $asset );
 
-		if ( ! isset( $_SERVER['WP_ENV_DEV'] ) && array_key_exists( $pathinfo['basename'], $this->manifest ) ) {
+		if ( ! defined( 'CHISEL_DEV_ENV' ) && array_key_exists( $pathinfo['basename'], $this->manifest ) ) {
 			return get_template_directory_uri() . '/' . self::DIST_PATH . $pathinfo['dirname'] . '/' . $this->manifest[ $pathinfo['basename'] ];
 		} else {
 			return get_template_directory_uri() . '/' . self::DIST_PATH . trim( $asset, '/' );
